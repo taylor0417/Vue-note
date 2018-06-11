@@ -1,37 +1,153 @@
-## Welcome to GitHub Pages
+[TOC]
 
-You can use the [editor on GitHub](https://github.com/taylor0417/Vue-note/edit/gh-pages/Vue.md) to maintain and preview the content for your website in Markdown files.
+vue
+===
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+一、Vue.js介绍
+--------------
 
-### Markdown
+---
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Vue.js也称为Vue，读音类似view，错误读音v-u-e，由华人尤雨溪开源并维护。
 
-```markdown
-Syntax highlighted code block
+Vue有以下特点：
 
-# Header 1
-## Header 2
-### Header 3
+-	是一个构建用户界面的框架
 
-- Bulleted
-- List
+-	是一个轻量级MVVM（Model-View-ViewModel）框架，和angular、react类似
 
-1. Numbered
-2. List
+-	数据驱动+组件化的前端开发（核心思想）
 
-**Bold** and _Italic_ and `Code` text
+-	通过简单的API实现**响应式的数据绑定**和**组合的视图组件**
 
-[Link](url) and ![Image](src)
+-	更容易上手、小巧
+
+二、Hello World
+---------------
+
+---
+
+```javascript
+  <h1 id="app">{{content}}</h1>
+  <script>
+      var app = new Vue ({
+          el: '#app',
+          data: {
+              content: 'Hello World'
+          }
+      })
+  </script>
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+三、常用基本指令
+----------------
 
-### Jekyll Themes
+---
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/taylor0417/Vue-note/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+指令用来扩展HTML功能。vue内置了很多指令。
 
-### Support or Contact
+### 1、v-model
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+---
+
+它能轻松实现表单输入和应用状态之间的双向绑定。
+
+```javascript
+  <div id="main">
+    <input type="text" v-model="content">
+    <br> {{content}}
+  </div>
+
+  <script src="./js/vue.js"></script>
+  <script>
+   new Vue({
+       el: '#main',
+       data: {
+           content: ''
+       }
+   })
+  </script>
+```
+
+在这里，使用<font color="#006600">v-model</font>指令将输入框的值与vue实例中的content进行绑定。此后，二者中的任一值发生变化，另一个值都会跟随变化。
+
+### 2、v-for
+
+---
+
+用于遍历数组、对象等。
+
+```javascript
+  <div id="app">
+    <ul>
+      //v-for="'内容' in '对象或数组'"
+      <li v-for="item in list">{{item}}</li>
+    </ul>
+  </div>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        list: ['第一条内容','第二条内容','第三条内容']
+      }
+    })
+  </script>
+```
+
+### 3、v-on
+
+---
+
+用于绑定事件，用法：v-on:事件="函数"。
+
+```javascript
+  //综合案例简单的todolist
+  <div id="app">
+        <input type="text" v-model="inputValue">
+        <button v-on:click="btnClick">提交</button>
+        <ul>
+            <li v-for="item in list">{{item}}</li>
+        </ul>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                list: [],
+                inputValue: ''
+            },
+            methods: {
+                btnClick: function () {
+                    this.list.push(this.inputValue);
+                    this.inputValue = '';
+                }
+            }
+        })
+    </script>
+```
+
+### 4、v-show
+
+---
+
+用来显示或隐藏元素，<font color="#006600">v-show</font>是通过display实现。当v-show的值为true时显示，为false时隐藏。
+
+```javascript
+  <div id="app">
+      <button @click="change">显示/隐藏</button>
+      <h1 v-show="flag">我是隐藏的内容</h1>
+  </div>
+  <script>
+      var app = new Vue({
+          el: '#app',
+          data: {
+              flag: true
+          },
+          methods: {
+              change: function () {
+                  this.flag = !this.flag;
+              }
+          }
+      })
+  </script>
+```
